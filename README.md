@@ -1,5 +1,7 @@
-# blog_backend
-backend of a blog website
+# blog_backend  
+
+## backend of a blog website
+
 BACKEND MADE USING : NODEJS + EXPRESSJS    
 DATA BASE : POSTGRESQL  
 ORM : SEQUELIZE  
@@ -11,7 +13,7 @@ POSTMAN DOCUMENTATION LINK : https://documenter.getpostman.com/view/14007809/2s8
 API HOISTED ON : RENDER   
 DATABASE HOISTED ON : RENDER  
 
-#basic working  
+## basic working  
 + user can signup , login  
 ++ create read update and delete blogs  
 +++ like and unlike posts  
