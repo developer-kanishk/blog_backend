@@ -17,10 +17,11 @@ module.exports.createComment = async function createComment(req,res){
         }
         const comment = await Comment.build(data)
 
-        await comment.save()
+        const savedComment = await comment.save()
 
         res.json({
-            msg:'comment saved'
+            msg:'comment saved',
+            commentid:savedComment.dataValues['id']
         })
 
 

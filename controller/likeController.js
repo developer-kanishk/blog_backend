@@ -2,11 +2,33 @@
 const { Op } = require("sequelize");
 
 const Like = require('../models/likeModel');
-const user = require("../models/userModel");
+const User = require("../models/userModel");
+const Post = require('../models/postModel')
 module.exports.likePost = async function likePost(req,res){
     try{
         //check if post id is valid
         const postId = req.body.postid
+        const post = await Post.findOne({where:{
+            id:postId
+        }})
+        if(post==null){
+            return res.json({
+                msg:'post does not exist'
+            })
+        }
+
+
+        const isLiked = await Like.findOne({where:{
+            postid:postId,
+            userid:req.id
+        }})
+        if(isLiked!=null){
+            return res.json({
+                msg:'user has already liked the post'
+            })
+        }
+
+
 
         const like = Like.build({
             userid:req.id,
@@ -22,7 +44,7 @@ module.exports.likePost = async function likePost(req,res){
     }
     catch(error){
         return res.json({
-            error:err.message
+            error:error.message
         })
     }
 }
@@ -30,12 +52,31 @@ module.exports.likePost = async function likePost(req,res){
 module.exports.unlikePost = async function(req,res){
     try{
         //check if post id is valid
-
+        const postId = req.body.postid
+        const post = await Post.findOne({where:{
+            id:postId
+        }})
+        if(post==null){
+            return res.json({
+                msg:'post does not exist'
+            })
+        }
         //user can only dislike a post he has liked 
         //previously
 
+        const isLiked = await Like.findOne({where:{
+            postid:postId,
+            userid:req.id
+        }})
+
+        if(isLiked==null){
+           //user has not liked the post
+            return res.json({
+                msg:'post already unliked'
+            })
+        }
+
         const userId = req.id;
-        const postId = req.body.postid;
 
         await Like.destroy({
             where:{

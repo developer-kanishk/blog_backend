@@ -58,10 +58,11 @@ module.exports.signup = async function signgup(req, res) {
             'password': password
         })
 
-        await user.save()
+        const n_user = await user.save()
 
         res.json({
-            msg: 'user registered'
+            msg: 'user registered',
+            id: n_user.dataValues['id']
         })
     }
     catch (error) {

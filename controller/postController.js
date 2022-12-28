@@ -25,10 +25,13 @@ module.exports.createPost = async function createPost(req, res) {
             created_at: Date.now()
         })
 
-        await post.save();
+        const savedPost = await post.save();
+
+        // console.log(savedPost.dataValues['id'])
 
         res.json({
-            msg: 'post saved'
+            msg: 'post saved',
+            postid:savedPost.dataValues['id']
         })
 
 
@@ -45,6 +48,20 @@ module.exports.deletePost = async function deletePost(req, res) {
         //A user can delete only his post
         //add that check later
         const postId = req.params.id;
+        //post id invalid
+        
+        const isPost = await Post.findOne({where:{
+            id:postId
+        }})
+        if(isPost==null){
+            return res.json({
+                msg:'post does not exist'
+            })
+        }
+
+
+
+
         const post = await Post.findOne({ where: { id: postId } })
         // console.log(post)
         if (post) {
