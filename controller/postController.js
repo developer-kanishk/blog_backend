@@ -1,9 +1,14 @@
 const Post = require('../models/postModel');
 const { post } = require('../Router/apiRouter');
 const Sequelize = require('sequelize')
-const sequelize = new Sequelize('blog_db', 'postgres', '123456', {
-    dialect: 'postgres'
-})
+const sequelize = new Sequelize('postgres://kanishk1550:WD1VQmYIGk5eHHHp2kjtNe4A9Zzhe71j@dpg-cekimcpa6gdkdn05l420-a.oregon-postgres.render.com/blog_web_database',{
+    "ssl": true,
+    "dialectOptions": {
+       "ssl": {
+          "require": true
+       }
+     }
+}) 
 //create post
 
 module.exports.createPost = async function createPost(req, res) {
